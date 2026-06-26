@@ -1,0 +1,17 @@
+{
+  "name": "n8n-local",
+  "version": "1.0.0",
+  "description": "Local n8n self-hosted workflow automation",
+  "engines": {
+    "node": ">=22.16"
+  },
+  "scripts": {
+    "start": "n8n start",
+    "start:tunnel": "n8n start --tunnel",
+    "dev": "zsh dev.sh",
+    "stop": "pkill n8n && pkill ngrok"
+  },
+  "dependencies": {
+    "n8n": "latest"
+  }
+}
