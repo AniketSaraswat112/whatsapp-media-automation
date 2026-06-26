@@ -1,0 +1,357 @@
+{
+  "name": "Whatsapp media automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-webhook",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1200,
+        -160
+      ],
+      "id": "9d2613ac-441f-4912-ba18-47d224ca16bf",
+      "name": "Webhook",
+      "webhookId": "ff71e841-3c73-443d-9a16-643c67392c06"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body;\n\n  const value = body.entry[0].changes[0].value;\n  const contact = value.contacts[0];\n  const message = value.messages[0];\n\n  const name = contact.profile.name.replace(/\\s+/g, '_');\n  const waId = contact.wa_id;\n  const msgType = message.type;\n\n  let imageUrl = null;\n  let mimeType = null;\n\n  if (msgType === 'image') {\n    imageUrl = message.image.url;\n    mimeType = message.image.mime_type;\n  }\n\n  return [{\n    json: {\n      name,\n      waId,\n      folderName: `${name}_${waId}`,\n      imageUrl,\n      mimeType,\n      msgType\n    }\n  }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -992,
+        -160
+      ],
+      "id": "5303a8ca-88b9-477c-85d3-0be5974bd816",
+      "name": "Extract User Info"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8fb2b7e3-50f0-4f9e-a6f0-4cb95bf20b60",
+              "leftValue": "={{ $json.msgType }}",
+              "rightValue": "image",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -784,
+        -160
+      ],
+      "id": "225f9cb4-6504-4f08-b976-fb0aca2f9a2d",
+      "name": "IsImage"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "af06a912-127c-4bcb-8173-d91215112a26",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -368,
+        -256
+      ],
+      "id": "58a3cc3a-c355-4fe3-803e-9648732a7fcf",
+      "name": "Folder Exists"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Extract User Info').item.json.folderName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -112,
+        -160
+      ],
+      "id": "d05bb58b-1bdd-4bbe-a935-a79d0eed9f83",
+      "name": "Create Drive Folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8IVfrLs2t9mJ3JcC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        128,
+        -256
+      ],
+      "id": "5a12c9fd-ee23-4e76-bf60-e70ca64c5dcc",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "  const id = $input.first().json.id;\n  const folderName = $('Extract User Info').first().json.folderName;\n  const imageUrl = $('Extract User Info').first().json.imageUrl;\n  const mimeType = $('Extract User Info').first().json.mimeType;\n\n  return [{ json: { folderId: id, folderName, imageUrl, mimeType } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        336,
+        -256
+      ],
+      "id": "eda79cc6-d8be-4586-b7a1-ea296f530eaa",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $('Extract User Info').item.json.folderName }}",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -576,
+        -256
+      ],
+      "id": "ede9fe10-b6a0-441b-96e7-e2824253dda7",
+      "name": "Search files and folders",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8IVfrLs2t9mJ3JcC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Extract User Info').item.json.imageUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        544,
+        -256
+      ],
+      "id": "2a5b2a14-e08f-4dbb-b852-7e10e55081ea",
+      "name": "Download Image",
+      "retryOnFail": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Extract User Info').item.json.waId }}_{{ Date.now() }}.jpg",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Code in JavaScript').item.json.folderId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        752,
+        -256
+      ],
+      "id": "e05f9d60-87da-4949-8e04-354b075257c7",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8IVfrLs2t9mJ3JcC",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract User Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract User Info": {
+      "main": [
+        [
+          {
+            "node": "IsImage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IsImage": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Folder Exists": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Drive Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Drive Folder": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Folder Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "fdad842b-2781-4222-b8ad-03e1965e3977",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ffb40edcf91b73117a89ae4887ac49b539bd136dd613adbe2bbef268167bea0e"
+  },
+  "nodeGroups": [],
+  "id": "GRslUYetZ0hRcCLg",
+  "tags": []
+}
