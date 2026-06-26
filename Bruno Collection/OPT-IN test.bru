@@ -1,0 +1,27 @@
+meta {
+  name: OPT-IN test
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://mediaapi.smsgupshup.com/GatewayAPI/rest?method=OPT_IN&userid=2000265938&password=wOo5t8JFw&phone_number=919415027255&channel=WHATSAPP&auth_scheme=plain&v=1.1&format=json
+  body: formUrlEncoded
+  auth: inherit
+}
+
+params:query {
+  method: OPT_IN
+  userid: 2000265938
+  password: wOo5t8JFw
+  phone_number: 919415027255
+  channel: WHATSAPP
+  auth_scheme: plain
+  v: 1.1
+  format: json
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

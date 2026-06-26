@@ -1,0 +1,55 @@
+meta {
+  name: Send-MSG
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://mediaapi.smsgupshup.com/GatewayAPI/rest
+  body: formUrlEncoded
+  auth: inherit
+}
+
+headers {
+  Cache-Control: no-cache
+  Content-Type: application/x-www-form-urlencoded
+}
+
+body:text {
+  method=SENDMESSAGE&userid=2000265938&password=wOo5t8JFw&send_to=919352068487&msg=Hi Ayushi,  
+                                                                                               
+    🎉 Great news! Your claim has been successfully settled by the insurer.                      
+    Thank you for trusting Aldun to assist you with your claim journey.                          
+                                                                                                 
+    We'd love to hear about your experience with our service. Your feedback helps us improve and 
+    serve you better.&msg_type=TEXT&isHSM=true&isTemplate=true&templatename=settled&footer=Reply 
+    STOP to opt out of claim status updates.&v=1.1&auth_scheme=plain&format=json
+}
+
+body:form-urlencoded {
+  method: SENDMESSAGE
+  userid: 2000265938
+  password: wOo5t8JFw
+  send_to: 919415027255
+  msg_type: TEXT
+  msg: '''
+    Hi {{1}},
+    
+    🎉 Great news! Your claim has been successfully settled by the insurer.
+    Thank you for trusting Aldun to assist you with your claim journey.
+    
+    We'd love to hear about your experience with our service. Your feedback helps us improve and serve you better.
+  '''
+  isHSM: true
+  isTemplate: true
+  templatename: settled
+  footer: Reply STOP to opt out of claim status updates.
+  v: 1.1
+  auth_scheme: plain
+  format: json
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

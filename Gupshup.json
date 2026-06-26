@@ -1,0 +1,325 @@
+{
+  "info": {
+    "name": "Gupshup",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "OPT-IN test",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "https://mediaapi.smsgupshup.com/GatewayAPI/rest?method=OPT_IN&userid=2000265938&password=wOo5t8JFw&phone_number=919415027255&channel=WHATSAPP&auth_scheme=plain&v=1.1&format=json",
+          "protocol": "https",
+          "host": [
+            "mediaapi",
+            "smsgupshup",
+            "com"
+          ],
+          "path": [
+            "GatewayAPI",
+            "rest"
+          ],
+          "query": [
+            {
+              "key": "method",
+              "value": "OPT_IN"
+            },
+            {
+              "key": "userid",
+              "value": "2000265938"
+            },
+            {
+              "key": "password",
+              "value": "wOo5t8JFw"
+            },
+            {
+              "key": "phone_number",
+              "value": "919415027255"
+            },
+            {
+              "key": "channel",
+              "value": "WHATSAPP"
+            },
+            {
+              "key": "auth_scheme",
+              "value": "plain"
+            },
+            {
+              "key": "v",
+              "value": "1.1"
+            },
+            {
+              "key": "format",
+              "value": "json"
+            }
+          ],
+          "variable": []
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": []
+        }
+      }
+    },
+    {
+      "name": "Send-MSG",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache",
+            "disabled": false,
+            "type": "default"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "https://mediaapi.smsgupshup.com/GatewayAPI/rest",
+          "protocol": "https",
+          "host": [
+            "mediaapi",
+            "smsgupshup",
+            "com"
+          ],
+          "path": [
+            "GatewayAPI",
+            "rest"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "method",
+              "value": "SENDMESSAGE",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "userid",
+              "value": "2000265938",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "password",
+              "value": "wOo5t8JFw",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "send_to",
+              "value": "919415027255",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "msg_type",
+              "value": "TEXT",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "msg",
+              "value": "Hi {{1}},\n\n🎉 Great news! Your claim has been successfully settled by the insurer.\nThank you for trusting Aldun to assist you with your claim journey.\n\nWe'd love to hear about your experience with our service. Your feedback helps us improve and serve you better.",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "isHSM",
+              "value": "true",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "isTemplate",
+              "value": "true",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "templatename",
+              "value": "settled",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "footer",
+              "value": "Reply STOP to opt out of claim status updates.",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "v",
+              "value": "1.1",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "auth_scheme",
+              "value": "plain",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "format",
+              "value": "json",
+              "disabled": false,
+              "type": "default"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Send-MSG MEDIA",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache",
+            "disabled": false,
+            "type": "default"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "https://mediaapi.smsgupshup.com/GatewayAPI/rest",
+          "protocol": "https",
+          "host": [
+            "mediaapi",
+            "smsgupshup",
+            "com"
+          ],
+          "path": [
+            "GatewayAPI",
+            "rest"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "method",
+              "value": "SENDMESSAGE",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "userid",
+              "value": "2000265938",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "password",
+              "value": "wOo5t8JFw",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "send_to",
+              "value": "919415027255",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "msg_type",
+              "value": "TEXT",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "msg",
+              "value": "Hi {{1}},\n\n🎉 Great news! Your claim has been successfully settled by the insurer.\nThank you for trusting Aldun to assist you with your claim journey.\n\nWe'd love to hear about your experience with our service. Your feedback helps us improve and serve you better.",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "isHSM",
+              "value": "true",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "isTemplate",
+              "value": "true",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "templatename",
+              "value": "settled",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "footer",
+              "value": "Reply STOP to opt out of claim status updates.",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "v",
+              "value": "1.1",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "auth_scheme",
+              "value": "plain",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "format",
+              "value": "json",
+              "disabled": false,
+              "type": "default"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "1",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
